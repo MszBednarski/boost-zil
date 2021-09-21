@@ -2,7 +2,7 @@
   "name": "boost-zil",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "clean": "rimraf lib",
     "build": "npm run clean && tsc",
