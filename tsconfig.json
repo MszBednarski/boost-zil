@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "lib": ["es2017"],
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "target": "es2017",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "allowJs": true
+  },
+  "compileOnSave": true,
+  "include": [
+    "infra-manipulation",
+    "lib",
+    "signable",
+    "partialState.ts",
+    "utill.ts"
+  ]
+}

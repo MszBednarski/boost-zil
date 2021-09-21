@@ -1,0 +1,21 @@
+{
+  "name": "boost-zil",
+  "scripts": {
+    "postinstall": "./node_modules/.bin/tsc"
+  },
+  "dependencies": {
+    "@zilliqa-js/zilliqa": "^3.0.0",
+    "create-hash": "^1.2.0",
+    "dotenv": "^10.0.0",
+    "isomorphic-fetch": "^3.0.0",
+    "randombytes": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^4.11.6",
+    "@types/create-hash": "^1.2.2",
+    "@types/isomorphic-fetch": "^0.0.35",
+    "@types/long": "^4.0.1",
+    "@types/node": "^16.4.0",
+    "typescript": "^4.4.3"
+  }
+}
