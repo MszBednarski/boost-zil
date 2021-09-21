@@ -95,11 +95,9 @@ export interface ContractSubStateQuery {
   [key: string]: "*" | ContractSubStateQuery | undefined;
 }
 
-export type ContractSubStateQueryCast<Keys extends string> = Partial<
-  {
-    [Key in Keys]: "*" | ContractSubStateQuery;
-  }
->;
+export type ContractSubStateQueryCast<Keys extends string> = Partial<{
+  [Key in Keys]: "*" | ContractSubStateQuery;
+}>;
 
 interface ContractQuery {
   contractAddress: ByStr20;
@@ -219,12 +217,13 @@ export const partialState = (getZil: () => Promise<Zilliqa>) =>
         toRpc: r,
       };
     });
+    const zil = await getZil();
+    const node = zil as unknown as {
+      provider: { nodeURL: string };
+    };
     const result = await sendBatchRPCMethodCalls(
       partialQueryToRpcRes.map((p) => p.toRpc.queries).flat(),
-      (
-        await getZil()
-             //@ts-expect-error
-      ).provider.nodeURL
+      node.provider.nodeURL
     );
     const cut = cutArray(
       result,

@@ -5,19 +5,15 @@
     "noImplicitReturns": true,
     "outDir": "lib",
     "sourceMap": true,
-    "target": "es2017",
+    "target": "es5",
     "esModuleInterop": true,
+    "strict": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "allowJs": true
+    "allowJs": true,
+    "declaration": true
   },
   "compileOnSave": true,
-  "include": [
-    "infra-manipulation",
-    "lib",
-    "signable",
-    "partialState.ts",
-    "utill.ts"
-  ]
+  "include": ["src"]
 }
