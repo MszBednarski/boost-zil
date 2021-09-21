@@ -1,7 +1,7 @@
 {
   "name": "boost-zil",
   "main": "lib/index.js",
-  "version": "0.0.1",
+  "version": "0.0.11",
   "scripts": {
     "clean": "rimraf lib",
     "build": "npm run clean && tsc",
@@ -23,5 +23,17 @@
     "@types/node": "^16.4.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.4.3"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MszBednarski/boost-zil.git"
+  },
+  "author": "MszBednarski",
+  "bugs": {
+    "url": "https://github.com/MszBednarski/boost-zil/issues"
+  },
+  "homepage": "https://github.com/MszBednarski/boost-zil#readme"
 }
