@@ -8,6 +8,9 @@ abstract class UintSignable extends Signable {
     super();
     this.value = new BN(v);
   }
+  asBN() {
+    return this.value;
+  }
 }
 
 export class Uint32 extends UintSignable {
