@@ -15,5 +15,5 @@
     "declaration": true
   },
   "compileOnSave": true,
-  "include": ["src"]
+  "include": ["src", "src/local-config-maker.ts"]
 }
