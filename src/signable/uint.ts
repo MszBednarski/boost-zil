@@ -44,3 +44,16 @@ export class Uint128 extends UintSignable {
     return new Uint128(units.toQa(v, units.Units.Zil));
   }
 }
+
+export class Uint256 extends UintSignable {
+  type = "Uint256";
+  constructor(v: string | BN) {
+    super(v);
+  }
+  toHash() {
+    return sha256(this.value.toString("hex", 64));
+  }
+  toSend() {
+    return this.value.toString();
+  }
+}

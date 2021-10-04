@@ -2,18 +2,24 @@
   "name": "boost-zil",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "scripts": {
     "clean": "rimraf lib",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
     "publish": "npm publish --access public"
   },
+  "bin": {
+    "boost-zil-init": "./lib/binder/init-boost-zil.js",
+    "boost-zil-build": "./lib/binder/build-contracts.js"
+  },
   "license": "MIT",
   "dependencies": {
     "@zilliqa-js/zilliqa": "^3.0.0",
+    "app-root-path": "^3.0.0",
     "create-hash": "^1.2.0",
     "isomorphic-fetch": "^3.0.0",
+    "prettier": "^2.4.1",
     "randombytes": "^2.1.0"
   },
   "devDependencies": {
@@ -22,6 +28,7 @@
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/long": "^4.0.1",
     "@types/node": "^16.4.0",
+    "@types/prettier": "^2.4.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.4.3"
   },
