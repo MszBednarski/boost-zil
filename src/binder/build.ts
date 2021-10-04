@@ -11,6 +11,7 @@ export async function buildBind(
   contractPath: string,
   options: {
     makeSigners: boolean;
+    "custom-boost-zil-path": string;
   }
 ) {
   try {

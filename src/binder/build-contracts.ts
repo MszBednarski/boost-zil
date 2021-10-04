@@ -13,13 +13,12 @@ async function main() {
   const boostZil = JSON.parse(readFileSync(boostZilPath, "utf-8")) as {
     contracts: string[];
     makeSigners: boolean;
+    "custom-boost-zil-path": string;
   };
 
   await Promise.allSettled(
     boostZil.contracts.map((contractPath) =>
-      buildBind(resolve(rootDir, contractPath), {
-        makeSigners: boostZil.makeSigners,
-      })
+      buildBind(resolve(rootDir, contractPath), boostZil)
     )
   );
 }

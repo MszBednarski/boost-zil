@@ -1,0 +1,5 @@
+{
+  "contracts": ["./test/SlotMachine/SlotMachine.scilla"],
+  "makeSigners": false,
+  "custom-boost-zil-path": "../../../src"
+}

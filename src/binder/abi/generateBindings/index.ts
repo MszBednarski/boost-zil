@@ -16,7 +16,7 @@ function sha256String(s: string): string {
 export function generateBindings(
   abi: string,
   code: string,
-  options: { makeSigners: boolean }
+  options: { makeSigners: boolean; "custom-boost-zil-path"?: string }
 ) {
   const a = JSON.parse(abi) as ABI;
   setABI(a);
@@ -24,14 +24,18 @@ export function generateBindings(
   const deployCode = buildDeploy(code, sourceCodeHash);
   const transitions = buildTransitions(code, options.makeSigners);
 
+  const boostZilPath = options["custom-boost-zil-path"]
+    ? options["custom-boost-zil-path"]
+    : "boost-zil";
+
   addImport(
     `import { BN, Long } from "@zilliqa-js/util";`,
     `import { Transaction, TxParams } from "@zilliqa-js/account";`,
     `import { Contract } from "@zilliqa-js/contract";`,
-    `import * as T from "boost-zil"`,
-    `import { signTransition } from "boost-zil";`,
+    `import * as T from "${boostZilPath}"`,
+    `import { signTransition } from "${boostZilPath}";`,
     `import { Zilliqa } from "@zilliqa-js/zilliqa";`,
-    `import {ContractSubStateQueryCast, partialState } from "boost-zil"`
+    `import {ContractSubStateQueryCast, partialState } from "${boostZilPath}"`
   );
   const imports = getImports();
 

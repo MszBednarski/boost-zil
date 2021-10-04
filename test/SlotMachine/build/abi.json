@@ -1,0 +1,690 @@
+{
+  "cashflow_tags": {
+    "State variables": [
+      {
+        "field": "init_admin_pubkey",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "init_fee_addr",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "init_ticket_price",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "init_fee_cut",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "players_spins",
+        "tag": "(Map NoInfo)"
+      },
+      {
+        "field": "players_claimed",
+        "tag": "(Map NoInfo)"
+      },
+      {
+        "field": "admin",
+        "tag": "NotMoney"
+      },
+      {
+        "field": "admin_pubkey",
+        "tag": "NotMoney"
+      },
+      {
+        "field": "staging_admin_pubkey",
+        "tag": "(Option NotMoney)"
+      },
+      {
+        "field": "win_tiers",
+        "tag": "(Map NoInfo)"
+      },
+      {
+        "field": "fee_addr",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "ticket_price",
+        "tag": "NotMoney"
+      },
+      {
+        "field": "fee_cut",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "tmp_ticket_amt",
+        "tag": "Money"
+      },
+      {
+        "field": "void_cheques",
+        "tag": "(Map NoInfo)"
+      },
+      {
+        "field": "tmp_target",
+        "tag": "NoInfo"
+      }
+    ],
+    "ADT constructors": [
+      {
+        "SlotMachine.HashableArg": [
+          {
+            "constructor": "SlotMachine.B",
+            "tags": [
+              "NoInfo"
+            ]
+          },
+          {
+            "constructor": "SlotMachine.U",
+            "tags": [
+              "NoInfo"
+            ]
+          }
+        ]
+      },
+      {
+        "SlotMachine.Uint128Pair": [
+          {
+            "constructor": "SlotMachine.Uint128Pair",
+            "tags": [
+              "NotMoney",
+              "NoInfo"
+            ]
+          }
+        ]
+      },
+      {
+        "SlotMachine.SpinClaim": [
+          {
+            "constructor": "SlotMachine.SpinClaim",
+            "tags": [
+              "NoInfo",
+              "NoInfo",
+              "NoInfo",
+              "NoInfo"
+            ]
+          }
+        ]
+      },
+      {
+        "SlotMachine.Signable": [
+          {
+            "constructor": "SlotMachine.Signable",
+            "tags": [
+              "NoInfo",
+              "NoInfo",
+              "NoInfo",
+              "NoInfo",
+              "NoInfo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "contract_info": {
+    "scilla_major_version": "0",
+    "vname": "SlotMachine",
+    "params": [
+      {
+        "vname": "init_admin_pubkey",
+        "type": "ByStr33"
+      },
+      {
+        "vname": "init_fee_addr",
+        "type": "ByStr20"
+      },
+      {
+        "vname": "init_ticket_price",
+        "type": "Uint128"
+      },
+      {
+        "vname": "init_fee_cut",
+        "type": "Uint128"
+      }
+    ],
+    "fields": [
+      {
+        "vname": "players_spins",
+        "type": "Map (ByStr20) (Uint128)",
+        "depth": 1
+      },
+      {
+        "vname": "players_claimed",
+        "type": "Map (ByStr20) (Uint128)",
+        "depth": 1
+      },
+      {
+        "vname": "admin",
+        "type": "ByStr20",
+        "depth": 0
+      },
+      {
+        "vname": "admin_pubkey",
+        "type": "ByStr33",
+        "depth": 0
+      },
+      {
+        "vname": "staging_admin_pubkey",
+        "type": "Option (ByStr33)",
+        "depth": 0
+      },
+      {
+        "vname": "win_tiers",
+        "type": "Map (Uint128) (Uint128)",
+        "depth": 1
+      },
+      {
+        "vname": "fee_addr",
+        "type": "ByStr20",
+        "depth": 0
+      },
+      {
+        "vname": "ticket_price",
+        "type": "Uint128",
+        "depth": 0
+      },
+      {
+        "vname": "fee_cut",
+        "type": "Uint128",
+        "depth": 0
+      },
+      {
+        "vname": "tmp_ticket_amt",
+        "type": "Uint128",
+        "depth": 0
+      },
+      {
+        "vname": "void_cheques",
+        "type": "Map (ByStr32) (Bool)",
+        "depth": 1
+      },
+      {
+        "vname": "tmp_target",
+        "type": "ByStr20",
+        "depth": 0
+      }
+    ],
+    "transitions": [
+      {
+        "vname": "SetStagedAdmin",
+        "params": [
+          {
+            "vname": "staged",
+            "type": "ByStr33"
+          }
+        ]
+      },
+      {
+        "vname": "ClaimStagedAdmin",
+        "params": []
+      },
+      {
+        "vname": "SetWinTiers",
+        "params": [
+          {
+            "vname": "tiers",
+            "type": "List (SlotMachine.Uint128Pair)"
+          }
+        ]
+      },
+      {
+        "vname": "Send",
+        "params": [
+          {
+            "vname": "to",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amt",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "UpdateFeeAddr",
+        "params": [
+          {
+            "vname": "new",
+            "type": "ByStr20"
+          }
+        ]
+      },
+      {
+        "vname": "UpdateTicketPrice",
+        "params": [
+          {
+            "vname": "new",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "UpdateFeeCut",
+        "params": [
+          {
+            "vname": "new",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "AddFunds",
+        "params": []
+      },
+      {
+        "vname": "ClaimSpins",
+        "params": [
+          {
+            "vname": "target",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "spins",
+            "type": "List (SlotMachine.SpinClaim)"
+          }
+        ]
+      }
+    ],
+    "procedures": [
+      {
+        "vname": "ThrowError",
+        "params": [
+          {
+            "vname": "err",
+            "type": "SlotMachine.Error"
+          }
+        ]
+      },
+      {
+        "vname": "IsAdmin",
+        "params": []
+      },
+      {
+        "vname": "SendZil",
+        "params": [
+          {
+            "vname": "beneficiary",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amt",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "DoVoidCheque",
+        "params": [
+          {
+            "vname": "cheque_hash",
+            "type": "ByStr"
+          }
+        ]
+      },
+      {
+        "vname": "AssertChequeHashValid",
+        "params": [
+          {
+            "vname": "cheque_hash",
+            "type": "ByStr"
+          }
+        ]
+      },
+      {
+        "vname": "SetWinTier",
+        "params": [
+          {
+            "vname": "tier",
+            "type": "SlotMachine.Uint128Pair"
+          }
+        ]
+      },
+      {
+        "vname": "AcceptAsTickets",
+        "params": []
+      },
+      {
+        "vname": "GiveTickets",
+        "params": [
+          {
+            "vname": "to",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amt",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "AssertChequeValidityAndVoidIt",
+        "params": [
+          {
+            "vname": "cheque_hash",
+            "type": "ByStr"
+          },
+          {
+            "vname": "pubkey",
+            "type": "ByStr33"
+          },
+          {
+            "vname": "signature",
+            "type": "ByStr64"
+          }
+        ]
+      },
+      {
+        "vname": "AssertIsAdminSignatureAndVoidIt",
+        "params": [
+          {
+            "vname": "signable",
+            "type": "SlotMachine.Signable"
+          },
+          {
+            "vname": "signature",
+            "type": "ByStr64"
+          }
+        ]
+      },
+      {
+        "vname": "IncrementClaim",
+        "params": [
+          {
+            "vname": "target",
+            "type": "ByStr20"
+          }
+        ]
+      },
+      {
+        "vname": "AssertDiscountNotBiggerThanMax",
+        "params": [
+          {
+            "vname": "d",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "SendWinnings",
+        "params": [
+          {
+            "vname": "target",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "win_tier",
+            "type": "Uint128"
+          },
+          {
+            "vname": "amt",
+            "type": "Uint128"
+          },
+          {
+            "vname": "fee",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "PayFee",
+        "params": [
+          {
+            "vname": "amt",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "PayOutReward",
+        "params": [
+          {
+            "vname": "target",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "win_tier",
+            "type": "Uint128"
+          },
+          {
+            "vname": "discount",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "ClaimSpin",
+        "params": [
+          {
+            "vname": "spin",
+            "type": "SlotMachine.SpinClaim"
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "vname": "BoughtTickets",
+        "params": [
+          {
+            "vname": "sender",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "ticket_amt",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "Won",
+        "params": [
+          {
+            "vname": "target",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amt",
+            "type": "Uint128"
+          },
+          {
+            "vname": "win_tier",
+            "type": "Uint128"
+          },
+          {
+            "vname": "fee_nominator",
+            "type": "Uint128"
+          }
+        ]
+      }
+    ],
+    "ADTs": [
+      {
+        "tname": "SlotMachine.Error",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "SlotMachine.NotAuthorized",
+            "argtypes": []
+          },
+          {
+            "cname": "SlotMachine.NoStagedAdmin",
+            "argtypes": []
+          },
+          {
+            "cname": "SlotMachine.NotEnoughZILSent",
+            "argtypes": []
+          },
+          {
+            "cname": "SlotMachine.InvalidSignature",
+            "argtypes": []
+          },
+          {
+            "cname": "SlotMachine.CannotClaimMoreThanMax",
+            "argtypes": []
+          },
+          {
+            "cname": "SlotMachine.UnknownRewardTier",
+            "argtypes": []
+          },
+          {
+            "cname": "SlotMachine.DiscountTooBig",
+            "argtypes": []
+          },
+          {
+            "cname": "SlotMachine.InvalidCheque",
+            "argtypes": []
+          }
+        ]
+      },
+      {
+        "tname": "SlotMachine.HashableArg",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "SlotMachine.B",
+            "argtypes": [
+              "ByStr20"
+            ]
+          },
+          {
+            "cname": "SlotMachine.U",
+            "argtypes": [
+              "Uint128"
+            ]
+          }
+        ]
+      },
+      {
+        "tname": "Option",
+        "tparams": [
+          "'A"
+        ],
+        "tmap": [
+          {
+            "cname": "Some",
+            "argtypes": [
+              "'A"
+            ]
+          },
+          {
+            "cname": "None",
+            "argtypes": []
+          }
+        ]
+      },
+      {
+        "tname": "SlotMachine.Uint128Pair",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "SlotMachine.Uint128Pair",
+            "argtypes": [
+              "Uint128",
+              "Uint128"
+            ]
+          }
+        ]
+      },
+      {
+        "tname": "SlotMachine.SpinClaim",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "SlotMachine.SpinClaim",
+            "argtypes": [
+              "Uint128",
+              "Uint128",
+              "Uint128",
+              "ByStr64"
+            ]
+          }
+        ]
+      },
+      {
+        "tname": "Bool",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "True",
+            "argtypes": []
+          },
+          {
+            "cname": "False",
+            "argtypes": []
+          }
+        ]
+      },
+      {
+        "tname": "Nat",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "Zero",
+            "argtypes": []
+          },
+          {
+            "cname": "Succ",
+            "argtypes": [
+              "Nat"
+            ]
+          }
+        ]
+      },
+      {
+        "tname": "List",
+        "tparams": [
+          "'A"
+        ],
+        "tmap": [
+          {
+            "cname": "Cons",
+            "argtypes": [
+              "'A",
+              "List ('A)"
+            ]
+          },
+          {
+            "cname": "Nil",
+            "argtypes": []
+          }
+        ]
+      },
+      {
+        "tname": "Pair",
+        "tparams": [
+          "'A",
+          "'B"
+        ],
+        "tmap": [
+          {
+            "cname": "Pair",
+            "argtypes": [
+              "'A",
+              "'B"
+            ]
+          }
+        ]
+      },
+      {
+        "tname": "SlotMachine.Signable",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "SlotMachine.Signable",
+            "argtypes": [
+              "ByStr20",
+              "Uint128",
+              "Uint128",
+              "Uint128",
+              "ByStr20"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "warnings": [],
+  "gas_remaining": "79941"
+}
