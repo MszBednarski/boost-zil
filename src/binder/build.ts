@@ -17,6 +17,7 @@ export async function buildBind(
   try {
     const scillaContract = contractPath;
     const contractFileName = basename(contractPath);
+    console.time(contractFileName);
     const contractDir = dirname(scillaContract);
     const codePath = resolve(contractDir, scillaContract);
     const abiPath = resolve(contractDir, "./build/abi.json");
@@ -58,6 +59,7 @@ export async function buildBind(
     }
     writeFileSync(bindPath, bindings);
     writeFileSync(documentationPath, documentation);
+    console.timeEnd(contractFileName);
   } catch (e) {
     console.error(e);
   }

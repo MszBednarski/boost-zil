@@ -68,33 +68,6 @@
     ],
     "ADT constructors": [
       {
-        "SlotMachine.SpinClaim": [
-          {
-            "constructor": "SlotMachine.SpinClaim",
-            "tags": [
-              "NoInfo",
-              "NoInfo",
-              "NoInfo",
-              "NoInfo"
-            ]
-          }
-        ]
-      },
-      {
-        "SlotMachine.Signable": [
-          {
-            "constructor": "SlotMachine.Signable",
-            "tags": [
-              "NoInfo",
-              "NoInfo",
-              "NoInfo",
-              "NoInfo",
-              "NoInfo"
-            ]
-          }
-        ]
-      },
-      {
         "SlotMachine.HashableArg": [
           {
             "constructor": "SlotMachine.B",
@@ -116,6 +89,33 @@
             "constructor": "SlotMachine.Uint128Pair",
             "tags": [
               "NotMoney",
+              "NoInfo"
+            ]
+          }
+        ]
+      },
+      {
+        "SlotMachine.Signable": [
+          {
+            "constructor": "SlotMachine.Signable",
+            "tags": [
+              "NoInfo",
+              "NoInfo",
+              "NoInfo",
+              "NoInfo",
+              "NoInfo"
+            ]
+          }
+        ]
+      },
+      {
+        "SlotMachine.SpinClaim": [
+          {
+            "constructor": "SlotMachine.SpinClaim",
+            "tags": [
+              "NoInfo",
+              "NoInfo",
+              "NoInfo",
               "NoInfo"
             ]
           }
@@ -539,6 +539,37 @@
         ]
       },
       {
+        "tname": "SlotMachine.HashableArg",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "SlotMachine.B",
+            "argtypes": [
+              "ByStr20"
+            ]
+          },
+          {
+            "cname": "SlotMachine.U",
+            "argtypes": [
+              "Uint128"
+            ]
+          }
+        ]
+      },
+      {
+        "tname": "SlotMachine.Uint128Pair",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "SlotMachine.Uint128Pair",
+            "argtypes": [
+              "Uint128",
+              "Uint128"
+            ]
+          }
+        ]
+      },
+      {
         "tname": "Option",
         "tparams": [
           "'A"
@@ -553,6 +584,22 @@
           {
             "cname": "None",
             "argtypes": []
+          }
+        ]
+      },
+      {
+        "tname": "SlotMachine.Signable",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "SlotMachine.Signable",
+            "argtypes": [
+              "ByStr20",
+              "Uint128",
+              "Uint128",
+              "Uint128",
+              "ByStr20"
+            ]
           }
         ]
       },
@@ -632,53 +679,6 @@
             "argtypes": [
               "'A",
               "'B"
-            ]
-          }
-        ]
-      },
-      {
-        "tname": "SlotMachine.Signable",
-        "tparams": [],
-        "tmap": [
-          {
-            "cname": "SlotMachine.Signable",
-            "argtypes": [
-              "ByStr20",
-              "Uint128",
-              "Uint128",
-              "Uint128",
-              "ByStr20"
-            ]
-          }
-        ]
-      },
-      {
-        "tname": "SlotMachine.HashableArg",
-        "tparams": [],
-        "tmap": [
-          {
-            "cname": "SlotMachine.B",
-            "argtypes": [
-              "ByStr20"
-            ]
-          },
-          {
-            "cname": "SlotMachine.U",
-            "argtypes": [
-              "Uint128"
-            ]
-          }
-        ]
-      },
-      {
-        "tname": "SlotMachine.Uint128Pair",
-        "tparams": [],
-        "tmap": [
-          {
-            "cname": "SlotMachine.Uint128Pair",
-            "argtypes": [
-              "Uint128",
-              "Uint128"
             ]
           }
         ]
