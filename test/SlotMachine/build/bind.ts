@@ -948,14 +948,14 @@ export const SlotMachine = (resolvers: SDKResolvers) => {
           };
         },
 
-        AddFunds: () => {
+        AddFunds: (amount: T.Uint128) => {
           const transactionData = {
             isDeploy: false,
             ...sig,
             contractAddress: a.toSend(),
             contractTransitionName: `AddFunds`,
             data: [],
-            amount: new BN(0).toString(),
+            amount: amount.value.toString(),
           };
           return {
             /**

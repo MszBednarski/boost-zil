@@ -16,11 +16,10 @@ async function main() {
     "custom-boost-zil-path": string;
   };
 
-  await Promise.allSettled(
-    boostZil.contracts.map((contractPath) =>
-      buildBind(resolve(rootDir, contractPath), boostZil)
-    )
-  );
+  for (const contractPath of boostZil.contracts) {
+    // can only build one at a time atm due to global abi getter
+    await buildBind(resolve(rootDir, contractPath), boostZil);
+  }
 }
 
 if (require.main === module) {

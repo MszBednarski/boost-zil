@@ -10,6 +10,7 @@ export interface ABI {
     params: { vname: string; type: string }[];
     fields: { vname: string; type: string; depth: number }[];
     transitions: Transition[];
+    procedures: { vname: string }[];
     events: [];
     ADTs: {
       tname: string;

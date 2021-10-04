@@ -10,6 +10,8 @@
     accept is called only in the body of transition or procedure body
 */
 import { Transition } from "./interfaces";
+import { getABI } from "./getters";
+import { off } from "process";
 
 type Syntax =
   | "transition"
@@ -70,11 +72,50 @@ export function lexer(code: string) {
   return customLex(code, [";", "(", "(", "(*", "*)", ":=", "=", "=>"]);
 }
 
+function procedureAccepts(name: string, lexed: Labeled[]) {
+  let isBody = false;
+  let thereIsAccept = false;
+  let ignore = false;
+  for (const l of lexed) {
+    if (l.w == "(*") {
+      ignore = true;
+    }
+    if (l.w == "*)") {
+      ignore = false;
+    }
+    if (ignore) {
+      continue;
+    }
+    if (l.w == name && l.s == "other") {
+      isBody = true;
+    }
+    if (isBody) {
+      if (l.s == "procedure" || l.s == "transition") {
+        break;
+      }
+      if (l.w == "accept") {
+        thereIsAccept = true;
+        break;
+      }
+    }
+  }
+  if (thereIsAccept) {
+    console.log("Accepts Zil: ", name, thereIsAccept);
+  }
+  return thereIsAccept;
+}
+
 /**
  * checks if body has accept
  * until end, next transition, or next procedure
  */
 export function hasAccept(t: Transition, lexed: Labeled[]) {
+  const procedures = getABI().contract_info.procedures.map((p) => p.vname);
+  const procedureAcceptsMap = procedures.reduce((prev, cur) => {
+    prev[cur] = procedureAccepts(cur, lexed);
+    return prev;
+  }, {} as { [key: string]: boolean });
+  const calledProcedures = [];
   const name = t.vname;
   let isBody = false;
   let thereIsAccept = false;
@@ -91,11 +132,13 @@ export function hasAccept(t: Transition, lexed: Labeled[]) {
     }
     if (l.w == name && l.s == "other") {
       isBody = true;
-      if (name == "AddFunds") console.log("is body", name);
     }
     if (isBody) {
       if (l.s == "procedure" || l.s == "transition") {
         break;
+      }
+      if (procedures.includes(l.w)) {
+        calledProcedures.push(l.w);
       }
       if (l.w == "accept") {
         console.log("thereIsAccept");
@@ -104,6 +147,13 @@ export function hasAccept(t: Transition, lexed: Labeled[]) {
       }
     }
   }
+  const accepts = calledProcedures.reduce((prev, cur) => {
+    if (prev) {
+      return prev;
+    }
+    return procedureAcceptsMap[cur];
+  }, false);
+  thereIsAccept = thereIsAccept || accepts;
   if (thereIsAccept) {
     console.log("Accepts Zil: ", name, thereIsAccept);
   }
