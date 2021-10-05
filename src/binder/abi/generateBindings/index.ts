@@ -116,6 +116,12 @@ export const ${a.contract_info.vname} = (resolvers: SDKResolvers) => {
     const txLink = resolvers.txLog ? resolvers.txLog : defaultTxLog;
     
     return {
+  async balance(a: T.ByStr20) {
+    const res = await getZil();
+    const bal = await res.zil.blockchain.getBalance(a.toSend());
+    await res.teardown();
+    return new T.Uint128(bal.result.balance);
+  },
 
   /**
    * will try to send a transaction to the contract
