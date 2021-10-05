@@ -4,6 +4,7 @@ export interface Transition {
 }
 
 export interface ABI {
+  source_hash: string;
   contract_info: {
     scilla_major_version: string;
     vname: string;

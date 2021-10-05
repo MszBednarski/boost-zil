@@ -2,12 +2,13 @@
   "name": "boost-zil",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "scripts": {
     "clean": "rimraf lib",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
     "publish": "npm publish --access public",
+    "test:build": "npm run build && ts-node ./src/binder/build-contracts.ts",
     "test": "mocha -r ts-node/register 'test/**/*.test.ts' --timeout 1000000"
   },
   "bin": {

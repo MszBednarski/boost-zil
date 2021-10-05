@@ -65,7 +65,7 @@ const getScillaSendType = (
   // ex:  type: `List (ByStr20 with contract field balances : Map (ByStr20) (Uint128) end)`
   // scilla stop griefing
   if (t.startsWith("List (ByStr20 with contract field")) {
-    return "List (ByStr20)"
+    return "List (ByStr20)";
   }
   return t;
 };

@@ -99,9 +99,9 @@ function procedureAccepts(name: string, lexed: Labeled[]) {
       }
     }
   }
-  if (thereIsAccept) {
-    console.log("Accepts Zil: ", name, thereIsAccept);
-  }
+  // if (thereIsAccept) {
+  //   console.log("Accepts Zil: ", name, thereIsAccept);
+  // }
   return thereIsAccept;
 }
 

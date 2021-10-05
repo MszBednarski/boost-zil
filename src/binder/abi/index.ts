@@ -3,7 +3,7 @@ import { ABI } from "./generateBindings/interfaces";
 import { RED, GREEN } from "../shared";
 declare var fetch: any;
 
-export async function getABI(code: string) {
+export async function getABI(code: string, codeHash: string) {
   const res = await fetch("https://scilla-server.zilliqa.com/contract/check", {
     headers: {
       accept: "application/json, text/plain, */*",
@@ -27,7 +27,8 @@ export async function getABI(code: string) {
     );
     throw new Error("scilla-checker failed");
   }
-  const response = JSON.parse(scillaCheckerRes.message);
-  return response as ABI;
+  const response = JSON.parse(scillaCheckerRes.message) as ABI;
+  response.source_hash = codeHash;
+  return response;
 }
 export { generateBindings } from "./generateBindings";

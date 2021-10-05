@@ -1,17 +1,11 @@
 import { ABI } from "./interfaces";
 import { buildDeploy } from "./deploy";
 import { buildTransitions } from "./transition";
-import createHash from "create-hash";
 import { boilerplate } from "./boilerplate";
 import { stateGetter } from "./stateGetter";
 import { setABI, getImports, addImport } from "./getters";
 import { removeComments } from "./shared";
-
-function sha256String(s: string): string {
-  const sha = createHash("sha256");
-  sha.update(s);
-  return `0x${sha.digest().toString("hex")}`;
-}
+import { ScillaString } from "../../..";
 
 export function generateBindings(
   abi: string,
@@ -20,7 +14,7 @@ export function generateBindings(
 ) {
   const a = JSON.parse(abi) as ABI;
   setABI(a);
-  const sourceCodeHash = sha256String(code);
+  const sourceCodeHash = new ScillaString(code).toHash();
   const deployCode = buildDeploy(code, sourceCodeHash);
   const transitions = buildTransitions(code, options.makeSigners);
 
