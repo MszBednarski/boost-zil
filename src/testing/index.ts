@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { Account, Transaction } from "@zilliqa-js/account";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
+import { ByStr20, ByStr33 } from "../signable";
 
 type TXLog = (t: Transaction, msg: string) => void;
 
@@ -85,4 +86,11 @@ export function getResolversFromAccount(a: Account) {
     getNetworkName: () => c.networkname,
   };
   return resolvers;
+}
+
+export function getFundedAccount() {
+  const adminAcc = new Account(isolatedServer.submitterPrivateKey);
+  const adminAddr = new ByStr20(adminAcc.address);
+  const adminPubKey = new ByStr33(adminAcc.publicKey);
+  return { adminAcc, adminAddr, adminPubKey };
 }
