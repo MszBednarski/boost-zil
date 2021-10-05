@@ -2,9 +2,15 @@ import { generateBindings, getABI } from "./abi";
 import { resolve, dirname, basename } from "path";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { format } from "prettier";
-import { ScillaString } from "../../src";
 import { ABI } from "./abi/generateBindings/interfaces";
 import { CYAN } from "./shared";
+import createHash from "create-hash";
+
+function sha256String(s: string): string {
+  const sha = createHash("sha256");
+  sha.update(s);
+  return `0x${sha.digest().toString("hex")}`;
+}
 
 function createDirIfNotExists(dir: string) {
   !existsSync(dir) && mkdirSync(dir, { recursive: true });
@@ -46,7 +52,7 @@ export async function buildBind(
     const documentationPath = resolve(contractDir, "./README.md");
     createDirIfNotExists(buildDirectory);
     const code = readFileSync(codePath, "utf-8");
-    const sourceCodeHash = new ScillaString(code).toHash();
+    const sourceCodeHash = sha256String(code);
     const cachedABI = getCachedABI(abiPath, sourceCodeHash);
     const abi = cachedABI ? cachedABI : await getABI(code, sourceCodeHash);
     const contractName = abi.contract_info.vname;
