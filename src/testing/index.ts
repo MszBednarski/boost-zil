@@ -66,7 +66,7 @@ export const isolatedServer = {
 };
 
 /**
- * mainnet resolvers from account
+ * isolated server resolvers from account
  */
 export function getResolversFromAccount(a: Account) {
   const c = isolatedServer.mockConfig;
