@@ -15,5 +15,10 @@
     "declaration": true
   },
   "compileOnSave": true,
-  "include": ["src", "src/local-config-maker.ts", "./src/binder"]
+  "include": [
+    "src",
+    "src/local-config-maker.ts",
+    "./src/binder",
+    "./src/testing"
+  ]
 }

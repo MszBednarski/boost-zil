@@ -1,6 +1,6 @@
 import { ByStr20, ByStr33, createAccount, Uint128 } from "boost-zil";
 import { Account } from "@zilliqa-js/account";
-import { isolatedServer, getResolversFromAccount } from "./testing";
+import { isolatedServer, getResolversFromAccount } from "../src/testing";
 import { SlotMachine } from "./SlotMachine/build/bind";
 import { Long } from "@zilliqa-js/zilliqa";
 

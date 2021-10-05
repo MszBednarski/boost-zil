@@ -1,9 +1,19 @@
 import { exec } from "child_process";
 import fs from "fs";
 import path from "path";
-import { Account } from "@zilliqa-js/account";
+import { Account, Transaction } from "@zilliqa-js/account";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
-import { SDKResolvers } from "../SlotMachine/build/bind";
+
+type TXLog = (t: Transaction, msg: string) => void;
+
+interface SDKResolvers {
+  getZil: (
+    requireSigner?: boolean
+  ) => Promise<{ zil: Zilliqa; teardown: () => Promise<void> }>;
+  getVersion: () => number;
+  getNetworkName: () => string;
+  txLog?: TXLog;
+}
 
 export const sleep = (milis: number) =>
   new Promise<void>((res) => setTimeout(res, milis));
