@@ -31,11 +31,11 @@ describe("on blockchain", async () => {
         limit,
         adminPubKey,
         fundingAccount.address,
-        Uint128.zil("1"),
+        Uint128.zil("10"),
         new Uint128("1000")
       )
       .send();
 
-    await slotMachine.calls(address)(limit).AddFunds().send();
+    await slotMachine.calls(address)(limit).AddFunds(Uint128.zil("34")).send();
   });
 });

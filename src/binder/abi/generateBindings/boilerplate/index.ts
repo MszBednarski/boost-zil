@@ -1,6 +1,25 @@
 export const boilerplate = `
 
+declare var window: any
+
 export type TXLog = (t: Transaction, msg: string) => void;
+
+const thereIsZilPay = () => {
+  if (typeof window != "undefined") {
+    if (typeof window.zilPay != "undefined") {
+      return true;
+    }
+  }
+  return false;
+};
+
+const getTrail = () => {
+  if (thereIsZilPay()) {
+    return []
+  } else {
+    return [31, 1000]
+  }
+}
 
 /**
  * will try to send a transaction to the contract
@@ -23,8 +42,7 @@ const dangerousFromJSONDeploy =
         gasPrice,
         gasLimit,
       },
-      31,
-      1000
+      ...getTrail()
     );
     await teardown();
     txLink(tx, "Deploy");
@@ -71,8 +89,7 @@ const dangerousFromJSONCall =
         gasPrice,
         gasLimit,
       },
-      31,
-      1000
+      ...getTrail()
     );
     await teardown();
     txLink(tx, t.contractTransitionName);

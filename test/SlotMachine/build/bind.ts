@@ -408,7 +408,26 @@ transition ClaimSpins(target: ByStr20, spins: List SpinClaim)
 end
 `;
 
+declare var window: any;
+
 export type TXLog = (t: Transaction, msg: string) => void;
+
+const thereIsZilPay = () => {
+  if (typeof window != "undefined") {
+    if (typeof window.zilPay != "undefined") {
+      return true;
+    }
+  }
+  return false;
+};
+
+const getTrail = () => {
+  if (thereIsZilPay()) {
+    return [];
+  } else {
+    return [31, 1000];
+  }
+};
 
 /**
  * will try to send a transaction to the contract
@@ -431,8 +450,7 @@ const dangerousFromJSONDeploy =
           gasPrice,
           gasLimit,
         },
-        31,
-        1000
+        ...getTrail()
       );
       await teardown();
       txLink(tx, "Deploy");
@@ -479,8 +497,7 @@ const dangerousFromJSONCall =
           gasPrice,
           gasLimit,
         },
-        31,
-        1000
+        ...getTrail()
       );
       await teardown();
       txLink(tx, t.contractTransitionName);
@@ -591,10 +608,23 @@ async function getMinGasPrice(zil: Zilliqa) {
 }
 
 export const SlotMachine = (resolvers: SDKResolvers) => {
-  const defaultTxLog = (t: Transaction, msg: string) => {
-    const id = t.id;
-    const url = `https://viewblock.io/zilliqa/tx/0x${id}?network=${getNetworkName()}`;
+  const logUrl = (id: string, msg: string) => {
+    const network = getNetworkName();
     console.log(MAGENTA, msg);
+    if (network == "mainnet" || network == "testnet") {
+      const url = `https://viewblock.io/zilliqa/tx/0x${id}?network=${network}`;
+      console.log(CYAN, url);
+    }
+  };
+  const zilpayLog = (t: Transaction, msg: string) => {
+    console.log(t);
+    //@ts-ignore
+    const id = t.ID;
+    logUrl(id as string, msg);
+  };
+  const nodeLog = (t: Transaction, msg: string) => {
+    const id = t.id;
+    logUrl(id as string, msg);
     const receipt = t.getReceipt();
     if (receipt) {
       if (receipt.success) {
@@ -607,8 +637,30 @@ export const SlotMachine = (resolvers: SDKResolvers) => {
           });
         }
       }
+      if (receipt.event_logs) {
+        const events = receipt.event_logs as {
+          _eventname: string;
+          address: string;
+          params: { value: string; vname: string }[];
+        }[];
+        if (events.length != 0) {
+          console.log(CYAN, `Events🕵️‍♀️`);
+          events.forEach((e) => {
+            console.log(CYAN, `${e._eventname}`);
+            e.params.forEach((p) =>
+              console.log(CYAN, `${p.vname}: ${p.value}`)
+            );
+          });
+        }
+      }
     }
-    console.log(CYAN, url);
+  };
+  const defaultTxLog = (t: Transaction, msg: string) => {
+    if (thereIsZilPay()) {
+      zilpayLog(t, msg);
+    } else {
+      nodeLog(t, msg);
+    }
   };
   const { getZil, getVersion, getNetworkName } = resolvers;
   const txLink = resolvers.txLog ? resolvers.txLog : defaultTxLog;
