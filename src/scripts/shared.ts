@@ -82,6 +82,12 @@ export async function createSrc() {
   return src;
 }
 
+export async function createTest() {
+  const src = "./test";
+  mkdirSync(resolve(process.cwd(), src), { recursive: true });
+  return src;
+}
+
 export async function createPackage() {
   console.log("📦 creating package.json");
   await createFile(
