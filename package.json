@@ -2,18 +2,19 @@
   "name": "boost-zil",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "version": "1.0.98",
+  "version": "1.0.99",
   "scripts": {
     "clean": "rimraf lib",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
     "publish": "npm publish --access public",
-    "test:build": "npm run build && ts-node ./src/binder/build-contracts.ts",
+    "test:build": "npm run build && ts-node ./src/scripts/build-contracts.ts",
     "test": "npm run test:build && mocha -r ts-node/register 'test/**/*.test.ts' --timeout 1000000"
   },
   "bin": {
-    "boost-zil-init": "./lib/binder/init-boost-zil.js",
-    "boost-zil-build": "./lib/binder/build-contracts.js"
+    "boost-zil-init": "./lib/scripts/init-boost-zil.js",
+    "boost-zil-build": "./lib/scripts/build-contracts.js",
+    "boost-zil-project": "./lib/scripts/init-project.js"
   },
   "license": "MIT",
   "dependencies": {

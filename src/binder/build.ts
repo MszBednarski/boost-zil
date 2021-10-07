@@ -56,11 +56,11 @@ export async function buildBind(
     const cachedABI = getCachedABI(abiPath, sourceCodeHash);
     const abi = cachedABI ? cachedABI : await getABI(code, sourceCodeHash);
     const contractName = abi.contract_info.vname;
-    if (contractName != contractFileName.replace(".scilla", "")) {
-      throw new Error(
-        `.scilla contract file must have the same name! Change it to: ${abi.contract_info.vname}.scilla`
-      );
-    }
+    // if (contractName != contractFileName.replace(".scilla", "")) {
+    //   throw new Error(
+    //     `.scilla contract file must have the same name! Change it to: ${abi.contract_info.vname}.scilla`
+    //   );
+    // }
     const uuidRegex =
       /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}./g;
     //replace for adts

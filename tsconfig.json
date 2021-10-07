@@ -19,6 +19,7 @@
     "src",
     "src/local-config-maker.ts",
     "./src/binder",
-    "./src/testing"
+    "./src/testing",
+    "./src/scripts"
   ]
 }

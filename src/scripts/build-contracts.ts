@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { resolve } from "path";
 import { readFileSync, existsSync } from "fs";
-import { buildBind } from "./build";
-import { getPkgJsonDir } from "./shared";
+import { buildBind } from "../binder/build";
+import { getPkgJsonDir } from "../binder/shared";
 
 async function main() {
   const rootDir = await getPkgJsonDir();
