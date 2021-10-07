@@ -77,8 +77,8 @@ export const ${a.contract_info.vname} = (resolvers: SDKResolvers) => {
         console.log(GREEN, "Success.");
       } else {
         console.log(RED, "Failed.");
-        if (receipt.errors) {
-          Object.entries(receipt.errors).map(([k, v]) => {
+        if (receipt.exceptions) {
+          Object.entries(receipt.exceptions).map(([k, v]) => {
             console.log(RED, v);
           });
         }
