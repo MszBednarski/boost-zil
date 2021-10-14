@@ -1,6 +1,7 @@
 import { BN, units } from "@zilliqa-js/util";
 import { Signable, sha256 } from "./shared";
 import randomBytes from "randombytes";
+import Big from "big.js";
 
 abstract class UintSignable extends Signable {
   value: BN;
@@ -42,6 +43,33 @@ export class Uint128 extends UintSignable {
   }
   static zil(v: string | BN) {
     return new Uint128(units.toQa(v, units.Units.Zil));
+  }
+  /**
+   *
+   * @param fraction the string representing a fraction delimited with a "."
+   * example: 0.04
+   * @param decimals the number of decimals the target number represented has
+   * example: 0.04 decimals 12 would result in:
+   * 40 000 000 000
+   */
+  static fromFraction(fraction: string, decimals: number) {
+    const frac = new Big(fraction);
+    const target = frac.mul(new Big(10).pow(decimals));
+    return new Uint128(target.toFixed(0));
+  }
+  /**
+   *
+   * @param str the string or Uint128 from the blockchain
+   * @param decimals the decimals in the string that represents some token§
+   * @param precision the precision of the fraction that the output string represents
+   */
+  static fromStringtoFraction(
+    str: string,
+    decimals: number,
+    precision: number = 3
+  ) {
+    const b = new Big(str).div(new Big(10).pow(decimals));
+    return b.toFixed(precision);
   }
 }
 
