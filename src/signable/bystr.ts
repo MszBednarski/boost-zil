@@ -10,6 +10,7 @@ abstract class ByStrSignable extends Signable {
   }
 }
 
+
 abstract class AnyByStr extends ByStrSignable {
   constructor(v: string) {
     let toSet = v.startsWith("0x") ? v : `0x${v}`;
@@ -23,6 +24,10 @@ abstract class AnyByStr extends ByStrSignable {
   }
 }
 
+/**
+ * the bystr20 type class, it manages the formatting of the address
+ * to make sure that it always goes through in the on chain transactions
+ */
 export class ByStr20 extends ByStrSignable {
   type = "ByStr20";
   static zeroVal = "0x0000000000000000000000000000000000000000";

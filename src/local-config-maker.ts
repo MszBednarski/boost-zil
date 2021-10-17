@@ -15,6 +15,13 @@ function mergeDeep(target: any, source: any) {
 
 type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> | undefined };
 
+/**
+ * Allows to create a permament config as a json file that
+ * conforms to a specific ts interface
+ * @param pathToConfig the absolute path to your config
+ * @returns an object to interact with your config, update it and get it
+ * and mock its values for testing purposes
+ */
 export const jsonConfigMaker = <T>(pathToConfig: string) => {
   if (!existsSync(pathToConfig)) {
     console.warn("Created new config file, since none was found");

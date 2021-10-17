@@ -29,6 +29,13 @@ export async function getMinGasPrice(zil: Zilliqa) {
 
 export type TXLog = (t: Transaction, msg: string) => void;
 
+/**
+ * resolvers are the core of any sdk
+ * they allow the sdk to be portable by giving functions that resolve to different
+ * zilliqa network configurations
+ * such as testnet mainnet isolated server
+ * beyond that you can provide different submitter keys for contract calls and deploys
+ */
 export interface SDKResolvers {
   getZil: (
     requireSigner?: boolean
@@ -38,6 +45,14 @@ export interface SDKResolvers {
   txLog?: TXLog;
 }
 
+/**
+ * Send zil to an account convinience method
+ *
+ * @param resolvers the sdk resolvers
+ * @param to address to send the zil to
+ * @param amt of zil to send
+ * @returns the transaction if successful
+ */
 export async function sendZIL(
   resolvers: SDKResolvers,
   to: ByStr20,

@@ -27,6 +27,11 @@ const exe = (command: string) =>
     });
   });
 const serverPath = path.resolve(__dirname, "./tmp_server");
+/**
+ * isolated server object
+ * has all of the config to do testing, including a funded private key
+ * make sure to .kill() the server after you are done
+ */
 export const isolatedServer = {
   mockConfig: {
     networkname: "isolated",
@@ -88,6 +93,10 @@ export function getResolversFromAccount(a: Account) {
   return resolvers;
 }
 
+/**
+ * 
+ * @returns a funded account on the isolated server
+ */
 export function getFundedAccount() {
   const adminAcc = new Account(isolatedServer.submitterPrivateKey);
   const adminAddr = new ByStr20(adminAcc.address);

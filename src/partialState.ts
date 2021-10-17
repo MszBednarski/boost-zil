@@ -203,6 +203,12 @@ function cutArray<T>(arr: T[], cuts: number[]) {
   return res;
 }
 
+/**
+ * @param getZil resolver to a zilliqa object
+ * @returns the state of the contracts
+ * lower level method
+ * using the boost-zil skds .state() is recommended instead
+ */
 export const partialState = (getZil: () => Promise<Zilliqa>) =>
   async function <
     T extends ContractSubStateQuery,
