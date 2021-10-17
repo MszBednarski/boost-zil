@@ -29,7 +29,8 @@ const getVarValue = (t: string, varRef: string, typescriptType: string) => {
     t.startsWith("String") ||
     t.startsWith("ByStr") ||
     t.startsWith("Uint32") ||
-    t.startsWith("Uint128")
+    t.startsWith("Uint128") ||
+    t.startsWith("Uint256")
   ) {
     return `${varRef}.toSend()`;
   }

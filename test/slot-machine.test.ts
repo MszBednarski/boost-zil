@@ -1,4 +1,4 @@
-import { ByStr20, ByStr33, createAccount, Uint128 } from "boost-zil";
+import { ByStr20, ByStr33, createAccount, Uint128 } from "../src";
 import { Account } from "@zilliqa-js/account";
 import { isolatedServer, getResolversFromAccount } from "../src/testing";
 import { SlotMachine } from "./SlotMachine/build/bind";
@@ -27,7 +27,7 @@ describe("on blockchain", async () => {
   after(async () => {
     await isolatedServer.kill();
   });
-  it("works lol", async () => {
+  it("slot machine", async () => {
     const { address } = await slotMachine
       .deploy(
         limit,

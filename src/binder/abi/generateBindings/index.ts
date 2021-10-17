@@ -56,7 +56,7 @@ ${boilerplate}
 export const ${a.contract_info.vname} = (resolvers: SDKResolvers) => {
   const logUrl = (id: string, msg: string) => {
     const network = getNetworkName();
-    console.log(MAGENTA, msg);
+    console.log(MAGENTA, msg + " 🔥");
     if (network == "mainnet" || network == "testnet") {
       const url = \`https://viewblock.io/zilliqa/tx/0x\${id}?network=\${network}\`;
       console.log(CYAN, url);
@@ -94,7 +94,10 @@ export const ${a.contract_info.vname} = (resolvers: SDKResolvers) => {
           events.forEach((e) => {
             console.log(CYAN, \`\${e._eventname}\`);
             e.params.forEach((p) =>
-              console.log(CYAN, \`\${p.vname}: \${p.value}\`)
+           {
+             console.log(CYAN, \`\${p.vname}: \`)
+             console.log(MAGENTA, \`\${JSON.stringify(p.value, null, 2)}\`)
+            }
             );
           });
         }

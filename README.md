@@ -184,7 +184,7 @@ import {Zilliqa, Long} from "@zilliqa-js/zilliqa";
   const asJson = slotMachineCall.AddFunds(Uint128.zil("45")).toJSON();
   // with the json you can show it to the user, save to db for later, anything!
   // to rejenerate and send a transaction from the json:
-  const {tx} = await slotMachine.dangerousFromJSONCall(asJson, limit); 
+  const {tx} = await slotMachine.dangerousFromJSONCall(asJson, limit);
 
 })()
 
@@ -193,10 +193,9 @@ import {Zilliqa, Long} from "@zilliqa-js/zilliqa";
 ## Complex params call to a smart contract
 
 ```typescript
-import {List, Pair, ScillaString, ByStr20} from 'boost-zil'
-import {SlotMachine} from './test/SlotMachine/build/bind'
-import {Zilliqa, Long} from "@zilliqa-js/zilliqa";
-
+import { List, Pair, ScillaString, ByStr20 } from "boost-zil";
+import { SlotMachine } from "./test/SlotMachine/build/bind";
+import { Zilliqa, Long } from "@zilliqa-js/zilliqa";
 
 (async () => {
   // consider the ignite dao global config contract
@@ -215,8 +214,47 @@ import {Zilliqa, Long} from "@zilliqa-js/zilliqa";
       )
     )
     .send();
-})()
+})();
+```
 
+## Get partial state of a contract (example: GZIL)
+
+```typescript
+import { createAccount } from "boost-zil";
+
+const transferTarget = createAccount();
+const gzilCall = gzil.calls(address)(limit);
+const twoGzil = Uint128.fromFraction("2", 15);
+const twoThirdGzil = Uint128.fromFraction("0.66", 15);
+await gzilCall.Transfer(transferTarget.address, twoGzil).send();
+const mintTarget = createAccount();
+await gzilCall.Mint(mintTarget.address, twoThirdGzil).send();
+
+const [state] = await gzil
+  .state(
+    {
+      total_supply: "*",
+      balances: {
+        // will surgically get the state of mintTarget address and
+        // transfer target address
+        // remember to use lowerCase() this is how addresses are stored on the
+        // blockchain
+        [mintTarget.address.lowerCase()]: "*",
+        [transferTarget.address.lowerCase()]: "*",
+      },
+      // you can get other fields too
+    },
+    // set to true if you want to get the initial state too
+    "false"
+  )
+  .get(address);
+
+expect(state.balances[mintTarget.address.lowerCase()]).to.be.eq(
+  twoThirdGzil.toSend()
+);
+expect(state.balances[transferTarget.address.lowerCase()]).to.be.eq(
+  twoGzil.toSend()
+);
 ```
 
 ## Test smart contracts
@@ -225,7 +263,7 @@ You need to run docker desktop and then checkout this file for reference:
 
 [slot-machine.test.ts](./test/slot-machine.test.ts)
 
-consider that you will have everything setup if you just use:
+consider that you will have everything setup if you just use in your commandline:
 
 ```bash
 boost-zil-project
@@ -233,6 +271,35 @@ boost-zil-project
 
 to setup a project for you.
 
-## More Examples
+## Transaction logging
+
+On an isolated server (if you would be sending to mainnet you would have viewblock links too):
+
+```bash
+Deploy 🔥
+Success.
+Transfer 🔥
+Success.
+Events🕵️‍♀️
+TransferSuccess
+sender: 
+"0xd90f2e538ce0df89c8273cad3b63ec44a3c4ed82"
+recipient: 
+"0x06c586241ae6c6fe02de96b4683b4f45e6868643"
+amount: 
+"2000000000000000"
+Mint 🔥
+Success.
+Events🕵️‍♀️
+Minted
+minter: 
+"0xd90f2e538ce0df89c8273cad3b63ec44a3c4ed82"
+recipient: 
+"0x97a89084fe8bacdc2e8e7298c0c3d27bae4f92e5"
+amount: 
+"660000000000000"
+```
+
+## Full project examples
 
 [EXAMPLES](./examples/)

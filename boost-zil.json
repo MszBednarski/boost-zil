@@ -1,5 +1,9 @@
 {
-  "contracts": ["./test/SlotMachine/SlotMachine.scilla"],
+  "contracts": [
+    "./test/SlotMachine/SlotMachine.scilla",
+    "./test/ZilSwap/ZilSwap.scilla",
+    "./test/GZIL/GZIL.scilla"
+  ],
   "makeSigners": false,
   "custom-boost-zil-path": "../../../src"
 }

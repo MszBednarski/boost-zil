@@ -1,8 +1,10 @@
 import { Transition } from "./interfaces";
 import { getParamAST, getParam } from "./shared";
-import { hasAccept, Labeled, lexer } from "./zil-accept";
+import { Labeled, lexer } from "./zil-accept";
 import { getZilDocHeader, zilDoc } from "./zil-doc";
 import { getABI } from "./getters";
+import { lexScilla } from "../binder2/setup";
+import { justTransitions, justBody } from "../binder2/parser";
 
 function getZilFlow(acceptsZil: boolean) {
   if (acceptsZil) {
@@ -17,9 +19,10 @@ function getZilFlow(acceptsZil: boolean) {
 function buildTransition(
   trans: Transition,
   lexed: Labeled[],
-  makeSigners: boolean
+  makeSigners: boolean,
+  accepts: { [key: string]: boolean }
 ) {
-  const acceptsZil = hasAccept(trans, lexed);
+  const acceptsZil = accepts[trans.vname];
   const documentation = zilDoc(trans, lexed);
   const { zilAmountParam, zilAmountVal } = getZilFlow(acceptsZil);
   const { paramAST: ast, statementsToAdd } = getParamAST(
@@ -76,8 +79,18 @@ export function buildTransitions(code: string, makeSigners: boolean) {
     .filter((t) => !t.vname.includes("CallBack"))
     .filter((t) => !t.vname.includes("RecipientAcceptTransfer"))
     .filter((t) => !t.vname.includes("RecipientAcceptTransferFrom"));
+  /**
+   * from the better end to end lexer and exhaustive parser
+   */
+  const lexed2 = lexScilla(code);
+  const code2 = justBody(lexed2);
+  const transitionAccepts = justTransitions(code2).reduce((p, c) => {
+    p[c.name] = !!c.accepts;
+    return p;
+  }, {} as { [key: string]: boolean });
+
   const processed = transitions.map((t) =>
-    buildTransition(t, lexed, makeSigners)
+    buildTransition(t, lexed, makeSigners, transitionAccepts)
   );
   const built = processed.map((p) => p.transition).join("\n");
   const documentation =

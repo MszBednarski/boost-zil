@@ -12,6 +12,9 @@ abstract class UintSignable extends Signable {
   asBN() {
     return this.value;
   }
+  asBig() {
+    return new Big(this.value.toString());
+  }
 }
 
 export class Uint32 extends UintSignable {
