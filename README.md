@@ -259,9 +259,9 @@ expect(state.balances[transferTarget.address.lowerCase()]).to.be.eq(
 
 ## Test smart contracts
 
-You need to run docker desktop and then checkout this file for reference:
+You need to run docker desktop and then checkout the test directory of this project:
 
-[slot-machine.test.ts](./test/slot-machine.test.ts)
+[Test directory](./test/)
 
 consider that you will have everything setup if you just use in your commandline:
 
