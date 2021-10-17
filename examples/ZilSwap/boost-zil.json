@@ -1,0 +1,7 @@
+{
+  "contracts": [
+    "./src/SmartContract/SmartContract.scilla",
+    "./src/GZIL/GZIL.scilla"
+  ],
+  "makeSigners": false
+}
