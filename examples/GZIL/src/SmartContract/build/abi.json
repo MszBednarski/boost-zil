@@ -1,0 +1,492 @@
+{
+  "cashflow_tags": {
+    "State variables": [
+      {
+        "field": "contract_owner",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "init_minter",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "name",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "symbol",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "decimals",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "init_supply",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "num_minting_blocks",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "total_supply",
+        "tag": "NoInfo"
+      },
+      {
+        "field": "balances",
+        "tag": "(Map NoInfo)"
+      },
+      {
+        "field": "allowances",
+        "tag": "(Map (Map NoInfo))"
+      },
+      {
+        "field": "minter",
+        "tag": "NotMoney"
+      },
+      {
+        "field": "end_block",
+        "tag": "NotMoney"
+      }
+    ],
+    "ADT constructors": []
+  },
+  "contract_info": {
+    "scilla_major_version": "0",
+    "vname": "GZIL",
+    "params": [
+      {
+        "vname": "contract_owner",
+        "type": "ByStr20"
+      },
+      {
+        "vname": "init_minter",
+        "type": "ByStr20"
+      },
+      {
+        "vname": "name",
+        "type": "String"
+      },
+      {
+        "vname": "symbol",
+        "type": "String"
+      },
+      {
+        "vname": "decimals",
+        "type": "Uint32"
+      },
+      {
+        "vname": "init_supply",
+        "type": "Uint128"
+      },
+      {
+        "vname": "num_minting_blocks",
+        "type": "Uint128"
+      }
+    ],
+    "fields": [
+      {
+        "vname": "total_supply",
+        "type": "Uint128",
+        "depth": 0
+      },
+      {
+        "vname": "balances",
+        "type": "Map (ByStr20) (Uint128)",
+        "depth": 1
+      },
+      {
+        "vname": "allowances",
+        "type": "Map (ByStr20) (Map (ByStr20) (Uint128))",
+        "depth": 2
+      },
+      {
+        "vname": "minter",
+        "type": "ByStr20",
+        "depth": 0
+      },
+      {
+        "vname": "end_block",
+        "type": "BNum",
+        "depth": 0
+      }
+    ],
+    "transitions": [
+      {
+        "vname": "ChangeMinter",
+        "params": [
+          {
+            "vname": "new_minter",
+            "type": "ByStr20"
+          }
+        ]
+      },
+      {
+        "vname": "Mint",
+        "params": [
+          {
+            "vname": "recipient",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "IncreaseAllowance",
+        "params": [
+          {
+            "vname": "spender",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "DecreaseAllowance",
+        "params": [
+          {
+            "vname": "spender",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "Transfer",
+        "params": [
+          {
+            "vname": "to",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "TransferFrom",
+        "params": [
+          {
+            "vname": "from",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "to",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      }
+    ],
+    "procedures": [
+      {
+        "vname": "ThrowError",
+        "params": [
+          {
+            "vname": "err",
+            "type": "GZIL.Error"
+          }
+        ]
+      },
+      {
+        "vname": "IsOwner",
+        "params": [
+          {
+            "vname": "address",
+            "type": "ByStr20"
+          }
+        ]
+      },
+      {
+        "vname": "IsMinter",
+        "params": []
+      },
+      {
+        "vname": "IsNotSender",
+        "params": [
+          {
+            "vname": "address",
+            "type": "ByStr20"
+          }
+        ]
+      },
+      {
+        "vname": "AuthorizedMint",
+        "params": [
+          {
+            "vname": "recipient",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "AuthorizedMoveIfSufficientBalance",
+        "params": [
+          {
+            "vname": "from",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "to",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "vname": "TransferFromSuccess",
+        "params": [
+          {
+            "vname": "initiator",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "sender",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "recipient",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "TransferSuccess",
+        "params": [
+          {
+            "vname": "sender",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "recipient",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "DecreasedAllowance",
+        "params": [
+          {
+            "vname": "token_owner",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "spender",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "new_allowance",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "IncreasedAllowance",
+        "params": [
+          {
+            "vname": "token_owner",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "spender",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "new_allowance",
+            "type": "Uint128"
+          }
+        ]
+      },
+      {
+        "vname": "MintIsOver",
+        "params": []
+      },
+      {
+        "vname": "ChangedMinter",
+        "params": [
+          {
+            "vname": "new_minter",
+            "type": "ByStr20"
+          }
+        ]
+      },
+      {
+        "vname": "Minted",
+        "params": [
+          {
+            "vname": "minter",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "recipient",
+            "type": "ByStr20"
+          },
+          {
+            "vname": "amount",
+            "type": "Uint128"
+          }
+        ]
+      }
+    ],
+    "ADTs": [
+      {
+        "tname": "GZIL.Error",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "GZIL.CodeIsSender",
+            "argtypes": []
+          },
+          {
+            "cname": "GZIL.CodeInsufficientFunds",
+            "argtypes": []
+          },
+          {
+            "cname": "GZIL.CodeInsufficientAllowance",
+            "argtypes": []
+          },
+          {
+            "cname": "GZIL.CodeNotOwner",
+            "argtypes": []
+          },
+          {
+            "cname": "GZIL.CodeNotMinter",
+            "argtypes": []
+          }
+        ]
+      },
+      {
+        "tname": "Option",
+        "tparams": [
+          "'A"
+        ],
+        "tmap": [
+          {
+            "cname": "Some",
+            "argtypes": [
+              "'A"
+            ]
+          },
+          {
+            "cname": "None",
+            "argtypes": []
+          }
+        ]
+      },
+      {
+        "tname": "Bool",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "True",
+            "argtypes": []
+          },
+          {
+            "cname": "False",
+            "argtypes": []
+          }
+        ]
+      },
+      {
+        "tname": "Nat",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "Zero",
+            "argtypes": []
+          },
+          {
+            "cname": "Succ",
+            "argtypes": [
+              "Nat"
+            ]
+          }
+        ]
+      },
+      {
+        "tname": "List",
+        "tparams": [
+          "'A"
+        ],
+        "tmap": [
+          {
+            "cname": "Cons",
+            "argtypes": [
+              "'A",
+              "List ('A)"
+            ]
+          },
+          {
+            "cname": "Nil",
+            "argtypes": []
+          }
+        ]
+      },
+      {
+        "tname": "Pair",
+        "tparams": [
+          "'A",
+          "'B"
+        ],
+        "tmap": [
+          {
+            "cname": "Pair",
+            "argtypes": [
+              "'A",
+              "'B"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "warning_message": "No transition in contract GZIL contains an accept statement\n",
+      "start_location": {
+        "file": "",
+        "line": 0,
+        "column": 0
+      },
+      "end_location": {
+        "file": "",
+        "line": 0,
+        "column": 0
+      },
+      "warning_id": 1
+    }
+  ],
+  "gas_remaining": "79941",
+  "source_hash": "0x4569a383782fc6fdce278a3e66a55ddf9a4e235a5329fd9177d7c0437b867976"
+}
