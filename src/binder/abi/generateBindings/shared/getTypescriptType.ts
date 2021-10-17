@@ -49,6 +49,9 @@ export const getTypescriptType = (
     if (t.startsWith("Uint32")) {
       return "T.Uint32";
     }
+    if (t.startsWith("Uint256")) {
+      return "T.Uint256";
+    }
     if (t.startsWith("ByStr20")) {
       return "T.ByStr20";
     }
