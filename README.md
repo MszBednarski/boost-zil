@@ -320,6 +320,43 @@ amount:
 "660000000000000"
 ```
 
+## SDK types
+
+```typescript
+import {Uint128,ByStr20} from 'boost-zil'
+
+/**
+ * Any sdk type like Uint128 and ByStr20 
+ * List Pair 
+ * Custom ADT 
+ * Exist so that they streamline formatting and sending transactions
+ * to the blockchain.
+ * There are many quirks when it comes to the transactions, such as custom user ADTs
+ * the formatting on the addresses across the entire stack.
+ * that is why the sdk types corresponding to Scilla types exist.
+ * Also it allows for static typing in typescript if you passed the right types to the
+ * transaction which is epic!
+ * */
+
+// every type class exposes a .toSend() which recursively formats the message to the //// blockchain in conjunction with the contract sdks
+
+const addr = new ByStr20("any address as long as it is an address bech32 or bystr20").toSend();
+
+// addr now will be a formatted address and will be interpreted by the blockchain 
+// correctly! same goes for any other type
+
+// since gzil has 15 decimals to get 2.1 gzil all you have to do is:
+const twoGzil = Uint128.fromFraction("2.1", 15);
+// now twoGzil can be used in a transfer transaction to the GZIL contract !
+
+// if you want a formatted human readable string for a frontend:
+const humanReadableTwoGzil = Uint128.fromStringtoFraction(twoGzil.toSend(), 15, 3);
+// humanReadableTwoGzil is now "2.100"
+
+// if you want it formatted
+
+```
+
 ## Full project examples
 
 [EXAMPLES](./examples/)
