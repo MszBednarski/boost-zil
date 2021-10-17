@@ -257,6 +257,26 @@ expect(state.balances[transferTarget.address.lowerCase()]).to.be.eq(
 );
 ```
 
+## Get partial state of a contract without the sdk (example: fungible token balance)
+
+You can do that but using sdks is recommended. (the sdks use this under the hood, you can check it out, by generating a sdk and reading the code)
+
+```typescript
+const addr = new ByStr20("some address");
+const tokens = ["fungible token 1", "fungible token 2", "fungible token 3"]
+.map(t => new ByStr20(t))
+
+const states = await partialState(async () => getNoSignerZil())(
+          ...tokens.map((t) => ({
+              contractAddress: t,
+              includeInit: "false" as "false",
+              query: {
+                  balances: { [addr]: "*" as "*" },
+              },
+          })),
+      );
+```
+
 ## Test smart contracts
 
 You need to run docker desktop and then checkout the test directory of this project:
