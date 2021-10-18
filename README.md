@@ -15,6 +15,8 @@ Q: Why is it 10 times better?
 
 A: The SDK is typed, that means that with an IDE you will be asked to put the parameters that the contract requires AND the parameters will be formatted for you to be consumed by the blockchain.
 
+# [Docs Here](https://mszbednarski.github.io/boost-zil/index.html)
+
 ## :package: Package breakdown
 
 - boost-zil/lib/testing -> testing related methods
