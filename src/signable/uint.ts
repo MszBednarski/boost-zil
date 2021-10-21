@@ -30,8 +30,58 @@ export class Uint32 extends UintSignable {
   }
 }
 
+interface TokenInfo {
+  decimals: number;
+  precision: number;
+  symbol: string;
+}
+
 export class Uint128 extends UintSignable {
   type = "Uint128";
+  private tokenInfo: TokenInfo | undefined;
+
+  setTokenInfo(info: TokenInfo) {
+    this.tokenInfo = info;
+  }
+
+  getTokenInfo() {
+    if (!this.tokenInfo) {
+      throw new Error("Token info not set");
+    }
+    return this.tokenInfo;
+  }
+
+  /**
+   * throws error if tokenInfo is not set
+   * returns a readable frontend formatted string
+   */
+  getReadable() {
+    const info = this.getTokenInfo();
+    return Uint128.fromStringtoFraction(
+      this.toSend(),
+      info.decimals,
+      info.precision
+    );
+  }
+
+  /**
+   * makes a Uint128 with the same token info
+   */
+  static fromStringUint128(other: Uint128, newVal: string) {
+    const u = new Uint128(newVal);
+    u.setTokenInfo(other.getTokenInfo());
+    return u;
+  }
+  /**
+   * makes a Uint128 with the same token info from a fraction
+   */
+  static fromFractionUint128(other: Uint128, newFraction: string) {
+    const info = other.getTokenInfo();
+    const u = this.fromFraction(newFraction, info.decimals);
+    u.setTokenInfo(info);
+    return u;
+  }
+
   constructor(v: string | BN) {
     super(v);
   }
@@ -45,7 +95,9 @@ export class Uint128 extends UintSignable {
     return new Uint128(new BN(randomBytes(16).toString("hex"), "hex"));
   }
   static zil(v: string | BN) {
-    return new Uint128(units.toQa(v, units.Units.Zil));
+    const z = new Uint128(units.toQa(v, units.Units.Zil));
+    z.setTokenInfo({ decimals: 12, precision: 3, symbol: "ZIL" });
+    return z;
   }
   /**
    *

@@ -355,7 +355,15 @@ const twoGzil = Uint128.fromFraction("2.1", 15);
 const humanReadableTwoGzil = Uint128.fromStringtoFraction(twoGzil.toSend(), 15, 3);
 // humanReadableTwoGzil is now "2.100"
 
-// if you want it formatted
+// more advanced but pays off :)
+const twoGzil = Uint128.fromFraction("2", 15);
+twoGzil.setTokenInfo({ symbol: "GZIL", decimals: 15, precision: 3 });
+
+const threeGzil = Uint128.fromFractionUint128(twoGzil, "3.5");
+
+expect(threeGzil.toSend()).to.be.equal("3500000000000000");
+expect(threeGzil.getReadable()).to.be.equal("3.500");
+expect(twoGzil.getReadable()).to.be.equal("2.000");
 
 ```
 
