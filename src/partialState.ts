@@ -1,6 +1,7 @@
 import { ByStr20 } from "./signable";
 import "isomorphic-fetch";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
+import { SDKResolvers } from ".";
 
 declare var fetch: any;
 
@@ -243,4 +244,45 @@ export const partialState = (getZil: () => Promise<Zilliqa>) =>
       ) as ReplaceStar<T> & { _init: IsTrue<E, Init> }),
     }));
     return restored;
+  };
+
+/**
+ * 
+ * @param getZil from SDK resolvers
+ * @returns a map by address of the different contracts state you asked for
+ * the state map is indexed by address with ByStr20.toBech32()
+ */
+export const mappedPartialState = (getZil: SDKResolvers["getZil"]) =>
+  async function <
+    T extends ContractSubStateQuery,
+    E extends "true" | "false",
+    B extends { includeInit: E; contractAddress: ByStr20; query: T }
+  >(...partial: B[]) {
+    const partialQueryToRpcRes = partial.map((o) => {
+      const r = partialQueryToRPC(o);
+      return {
+        length: r.queries.length,
+        toRpc: r,
+      };
+    });
+    const { zil } = await getZil();
+    const node = zil as unknown as {
+      provider: { nodeURL: string };
+    };
+    const result = await sendBatchRPCMethodCalls(
+      partialQueryToRpcRes.map((p) => p.toRpc.queries).flat(),
+      node.provider.nodeURL
+    );
+    const cut = cutArray(
+      result,
+      partialQueryToRpcRes.map((o) => o.length)
+    );
+    const restored = cut.map((res, index) => ({
+      _this_address: partial[index].contractAddress,
+      ...restoreObject(res, partialQueryToRpcRes[index].toRpc),
+    }));
+    return restored.reduce((prev, cur) => {
+      prev[cur._this_address.toBech32()] = cur;
+      return prev;
+    }, {} as { [k: string]: Record<string, unknown> });
   };

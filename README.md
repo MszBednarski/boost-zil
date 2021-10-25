@@ -279,6 +279,40 @@ const states = await partialState(async () => getNoSignerZil())(
       );
 ```
 
+## Get partial state for multiple contracts as map
+
+```typescript
+const stateGetter = mappedPartialState(getMainnetResolvers().getZil);
+const state = await stateGetter(
+  {
+    contractAddress: ssn,
+    query: { deposit_amt_deleg: { [someAddr.lowerCase()]: "*" } },
+    includeInit: "false",
+  },
+  {
+    contractAddress: gzil,
+    query: { balances: { [bigGzilHodler.lowerCase()]: "*" } },
+    includeInit: "true",
+  },
+  {
+    contractAddress: zilswap,
+    query: { pools: { [gzil.lowerCase()]: "*" } },
+    includeInit: "false",
+  }
+);
+expect(
+  typeof state[ssn.toBech32()].deposit_amt_deleg[someAddr.lowerCase()] !=
+    "undefined"
+).to.be.true;
+expect(
+  typeof state[gzil.toBech32()].balances[bigGzilHodler.lowerCase()] !=
+    "undefined"
+).to.be.true;
+expect(
+  typeof state[zilswap.toBech32()].pools[gzil.lowerCase()] != "undefined"
+).to.be.true;
+```
+
 ## Test smart contracts
 
 You need to run docker desktop and then checkout the test directory of this project:

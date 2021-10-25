@@ -3,8 +3,13 @@ import { Account } from "@zilliqa-js/account";
 import { Signable } from "./signable/shared";
 import { ByStr20, ByStr64 } from "./signable/bystr";
 import { ScillaString, Uint128 } from "./signable";
-import { fromBech32Address, toChecksumAddress, BN } from "@zilliqa-js/zilliqa";
+import {
+  fromBech32Address,
+  toChecksumAddress,
+  Zilliqa,
+} from "@zilliqa-js/zilliqa";
 import { validation } from "@zilliqa-js/util";
+import { SDKResolvers } from ".";
 
 export const normaliseAddress = (address: string): string => {
   if (validation.isBech32(address)) {
@@ -108,3 +113,38 @@ export const signTransition: (contractAddress: ByStr20) => (
       chequeHash,
     };
   };
+
+/**
+ * returns resolvers to mainnet
+ * @param a optional zilliqa account
+ * @returns
+ */
+export function getMainnetResolvers(a?: Account) {
+  const c = {
+    nodeurl: "https://api.zilliqa.com/",
+    version: "65537",
+    networkname: "mainnet",
+  };
+  const getZil = a
+    ? async (signer?: boolean) => {
+        let teardown = async () => {};
+        const zil = new Zilliqa(c.nodeurl);
+        if (signer) {
+          zil.wallet.addByPrivateKey(a.privateKey);
+          teardown = async () => {};
+        }
+        return { zil, teardown };
+      }
+    : async () => {
+        const teardown = async () => {};
+        const zil = new Zilliqa(c.nodeurl);
+        return { zil, teardown };
+      };
+
+  const resolvers: SDKResolvers = {
+    getZil,
+    getVersion: () => parseInt(c.version),
+    getNetworkName: () => c.networkname,
+  };
+  return resolvers;
+}
