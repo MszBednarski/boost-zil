@@ -247,17 +247,19 @@ export const partialState = (getZil: () => Promise<Zilliqa>) =>
   };
 
 /**
- * 
+ *
  * @param getZil from SDK resolvers
  * @returns a map by address of the different contracts state you asked for
  * the state map is indexed by address with ByStr20.toBech32()
  */
 export const mappedPartialState = (getZil: SDKResolvers["getZil"]) =>
-  async function <
-    T extends ContractSubStateQuery,
-    E extends "true" | "false",
-    B extends { includeInit: E; contractAddress: ByStr20; query: T }
-  >(...partial: B[]) {
+  async function (
+    ...partial: {
+      includeInit: "true" | "false";
+      contractAddress: ByStr20;
+      query: ContractSubStateQuery;
+    }[]
+  ) {
     const partialQueryToRpcRes = partial.map((o) => {
       const r = partialQueryToRPC(o);
       return {

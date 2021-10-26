@@ -80,3 +80,10 @@ export async function sendZIL(
     throw e;
   }
 }
+
+export async function getBalance(getZil: SDKResolvers["getZil"], a: ByStr20) {
+  const res = await getZil();
+  const bal = await res.zil.blockchain.getBalance(a.toSend());
+  await res.teardown();
+  return new Uint128(bal.result.balance);
+}
