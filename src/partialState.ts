@@ -54,11 +54,11 @@ function assignKeys(target: {}, keys: string[], value: any) {
 function callToValue(call: RPCResult, keys: string[]) {
   const result = call.result;
   if (typeof result == "undefined" || result == null) {
-    console.warn(
-      "Call result for key trail:",
-      keys,
-      "is undefined, this might not be defined in the smart contract!"
-    );
+    // console.warn(
+    //   "Call result for key trail:",
+    //   keys,
+    //   "is undefined, this might not be defined in the smart contract!"
+    // );
     return undefined;
   }
   let tmp = result;
