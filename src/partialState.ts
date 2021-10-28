@@ -103,6 +103,7 @@ export type ContractSubStateQueryCast<Keys extends string> = Partial<{
 interface ContractQuery {
   contractAddress: ByStr20;
   includeInit: "true" | "false";
+  includeBalance?: "true" | "false";
   query: ContractSubStateQuery;
 }
 
@@ -143,7 +144,16 @@ interface PartialQueryToRPCRes {
 }
 
 function partialQueryToRPC(partial: ContractQuery): PartialQueryToRPCRes {
-  const { includeInit } = partial;
+  const { includeInit, includeBalance } = partial;
+  const balance =
+    includeBalance == "true"
+      ? [
+          addMeta({
+            method: "GetBalance",
+            params: [partial.contractAddress.noPrefixed()],
+          }),
+        ]
+      : [];
   const init =
     includeInit == "true"
       ? [
@@ -155,6 +165,10 @@ function partialQueryToRPC(partial: ContractQuery): PartialQueryToRPCRes {
       : [];
   const initMeta =
     includeInit == "true" ? [{ responseFields: [], putFields: ["_init"] }] : [];
+  const balanceMeta =
+    includeBalance == "true"
+      ? [{ responseFields: ["balance"], putFields: ["_balance"] }]
+      : [];
   const subStateQueries = passQuery(
     partial.query,
     [],
@@ -162,12 +176,14 @@ function partialQueryToRPC(partial: ContractQuery): PartialQueryToRPCRes {
     partial.contractAddress.noPrefixed()
   );
   const queries = [
+    ...balance,
     ...init,
     ...subStateQueries
       .map((r) => r.query)
       .map((r) => addMeta({ ...r, method: "GetSmartContractSubState" })),
   ];
   const meta = [
+    ...balanceMeta,
     ...initMeta,
     ...subStateQueries.map((r) => ({
       responseFields: r.meta.fields,
@@ -255,13 +271,17 @@ export const partialState = (getZil: () => Promise<Zilliqa>) =>
 export const mappedPartialState = (getZil: SDKResolvers["getZil"]) =>
   async function (
     ...partial: {
-      includeInit: "true" | "false";
+      includeInit?: "true" | "false";
       contractAddress: ByStr20;
+      includeBalance?: "true" | "false";
       query: ContractSubStateQuery;
     }[]
   ) {
     const partialQueryToRpcRes = partial.map((o) => {
-      const r = partialQueryToRPC(o);
+      const r = partialQueryToRPC({
+        ...o,
+        includeInit: o.includeInit ? o.includeInit : "false",
+      });
       return {
         length: r.queries.length,
         toRpc: r,

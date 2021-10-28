@@ -11,25 +11,25 @@ describe("mapped partial state", () => {
     const bigGzilHodler = new ByStr20(
       "zil1ajs40wuh3c3jw6dl0yevcrchzz5es4azylh6kd"
     );
+    const ignite = new ByStr20("0xaf0fd17f10a26573597ee823b3c47301d0af1d5a");
 
     const stateGetter = mappedPartialState(getMainnetResolvers().getZil);
     const state = await stateGetter(
       {
         contractAddress: ssn,
         query: { deposit_amt_deleg: { [someAddr.lowerCase()]: "*" } },
-        includeInit: "false",
       },
       {
         contractAddress: gzil,
         query: { balances: { [bigGzilHodler.lowerCase()]: "*" } },
-        includeInit: "true",
       },
       {
         contractAddress: zilswap,
         query: { pools: { [gzil.lowerCase()]: "*" } },
-        includeInit: "false",
-      }
+      },
+      { contractAddress: ignite, query: {}, includeBalance: "true" }
     );
+    console.log(state);
     expect(
       typeof state[ssn.toBech32()].deposit_amt_deleg[someAddr.lowerCase()] !=
         "undefined"
