@@ -1,4 +1,4 @@
-import { sign, schnorr } from "@zilliqa-js/crypto";
+import * as schnorr from "./schnorr";
 import { Account } from "@zilliqa-js/account";
 import { Signable } from "./signable/shared";
 import { ByStr20, ByStr64 } from "./signable/bystr";
@@ -23,6 +23,32 @@ export const normaliseAddress = (address: string): string => {
   }
 
   return toChecksumAddress(address);
+};
+
+/**
+ * sign
+ *
+ * @param {string} hash - hex-encoded hash of the data to be signed
+ *
+ * @returns {string} the signature
+ */
+const sign = (msg: Buffer, privateKey: string, pubKey: string): string => {
+  const sig = schnorr.sign(
+    msg,
+    Buffer.from(privateKey, "hex"),
+    Buffer.from(pubKey, "hex")
+  );
+
+  let r = sig.r.toString("hex");
+  let s = sig.s.toString("hex");
+  while (r.length < 64) {
+    r = "0" + r;
+  }
+  while (s.length < 64) {
+    s = "0" + s;
+  }
+
+  return r + s;
 };
 
 export function signWithAccount(cheque_hash: string, acc: Account) {

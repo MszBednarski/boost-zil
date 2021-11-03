@@ -1,4 +1,14 @@
-import { ByStr20, ByStr33, createAccount, Uint128 } from "../src";
+import {
+  ByStr20,
+  ByStr33,
+  ByStr64,
+  createAccount,
+  CustomADT,
+  getHashed,
+  List,
+  signWithAccount,
+  Uint128,
+} from "../src";
 import { Account } from "@zilliqa-js/account";
 import { isolatedServer, getResolversFromAccount } from "../src/testing";
 import { SlotMachine } from "./SlotMachine/build/bind";
@@ -38,8 +48,38 @@ describe("on blockchain", async () => {
       )
       .send();
 
-    await slotMachine.calls(address)(limit).AddFunds(Uint128.zil("34")).send();
+    const call = slotMachine.calls(address)(limit);
+    await call.AddFunds(Uint128.zil("34")).send();
 
     await sendZIL(resolvers, createAccount().address, Uint128.zil("10"));
+
+    await call
+      .SetWinTiers(
+        new List([new CustomADT(new Uint128("0"), new Uint128("0"))])
+      )
+      .send();
+
+    const hashed = getHashed(
+      admin,
+      new Uint128("0"),
+      new Uint128("0"),
+      new Uint128("0"),
+      address
+    );
+    const signed = signWithAccount(hashed.chequeHash, adminAcc);
+
+    await call
+      .ClaimSpins(
+        admin,
+        new List([
+          new CustomADT(
+            new Uint128("0"),
+            new Uint128("0"),
+            new Uint128("0"),
+            signed
+          ),
+        ])
+      )
+      .send();
   });
 });
