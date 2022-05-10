@@ -4,5 +4,5 @@ export const GREEN = "\x1B[32m%s\x1b[0m";
 export const MAGENTA = "\x1B[35m%s\x1b[0m";
 
 export async function getPkgJsonDir() {
-  return require("app-root-path").path;
+  return process.cwd();
 }
